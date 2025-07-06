@@ -3,6 +3,8 @@ import  useGlobalReducer  from "../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
 import "../index.css"; 
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const Signup = () => {
     const { store, dispatch } = useGlobalReducer(); 
     const [email, setEmail] = useState("");
@@ -19,7 +21,7 @@ export const Signup = () => {
         };
 
         try {
-            const resp = await fetch(process.env.BACKEND_URL + "/api/register", opts);
+            const resp = await fetch(`${API_URL}/api/register`, opts);
             const data = await resp.json();
 
             if (resp.status === 201) {

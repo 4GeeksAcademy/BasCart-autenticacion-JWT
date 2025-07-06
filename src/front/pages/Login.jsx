@@ -3,6 +3,8 @@ import  useGlobalReducer  from "../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
 import "../index.css";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const Login = () => {
     const { store, dispatch } = useGlobalReducer();
     const [email, setEmail] = useState("");
@@ -19,14 +21,12 @@ export const Login = () => {
         };
 
         try {
-            const resp = await fetch(process.env.BACKEND_URL + "/api/login", opts);
+            const resp = await fetch(`${API_URL}/api/login`, opts);
             const data = await resp.json();
 
             if (resp.status === 200) {
-                // Login exitoso, SOLO actualiza el token en el store
-                // El currentUser se establecerá cuando se acceda a /private
-                dispatch({ type: "SET_TOKEN", payload: { token: data.access_token, user: null } }); // user: null inicialmente
-                navigate("/private"); // Redirige a la página privada
+                dispatch({ type: "SET_TOKEN", payload: { token: data.access_token, user: null } }); 
+                navigate("/private");
             } else {
                 dispatch({ type: "SET_MESSAGE", payload: data.msg || "Credenciales incorrectas. Inténtalo de nuevo." });
             }

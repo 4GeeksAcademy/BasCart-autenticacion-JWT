@@ -3,6 +3,8 @@ import  useGlobalReducer  from "../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
 import "../index.css";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const Private = () => {
     const { store, dispatch } = useGlobalReducer();
     const navigate = useNavigate();
@@ -21,7 +23,7 @@ export const Private = () => {
                 }
             };
             try {
-                const resp = await fetch(process.env.BACKEND_URL + "/api/private", opts);
+                const resp = await fetch(`${API_URL}/api/private`, opts);
                 const data = await resp.json();
 
                 if (resp.status === 200) {
